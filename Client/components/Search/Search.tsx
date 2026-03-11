@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState,useRef, useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { HomeIcon, ChevronDoubleRightIcon } from '@heroicons/react/24/outline'
 import SearchProducts from './SearchProducts';
 import { useParams } from "next/navigation"
@@ -48,24 +48,30 @@ interface Product {
 }
 const Search = () => {
     const categoryCapture = useParams();
-    const specificCategory:any = categoryCapture.productName;
-    const currDirectory = ['Search',specificCategory];
-    const [loading, setloading] = useState(true)
+    const specificCategory = String(categoryCapture.productName);
+    const currDirectory = ['Search', specificCategory];
+    const [loading, setloading] = useState(true);
     const productsData = useRef<Product[]>([]);
     const dataChecked = useRef(false);
     const [clear, setClear] = useState(false);
     const [isMenu, setIsMenu] = useState(false);
-    async function filterSubmit(e:any){
+
+    const filterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       productsData.current = [];
       dataChecked.current = false;
       setloading(true);
-      const values = {
-        minPrice:e.target.pricefrom.value,
-        maxPrice:e.target.priceto.value,
-        rating:e.target.rating.value
-      }
-      const response = await searchFilteredHandler({productName:specificCategory,minPrice:values.minPrice,maxPrice:values.maxPrice,rating:values.rating});
+      const formData = new FormData(e.currentTarget);
+      const minPrice = String(formData.get('pricefrom') ?? '');
+      const maxPrice = String(formData.get('priceto') ?? '');
+      const rating = String(formData.get('rating') ?? '');
+
+      const response = await searchFilteredHandler({
+        productName: specificCategory,
+        minPrice,
+        maxPrice,
+        rating,
+      });
       switch (response.status) {
         case 200:
           productsData.current = response.data.data;
@@ -73,27 +79,31 @@ const Search = () => {
           setloading(false);
           break;
       }
-    }
-    async function fetchData(){
-      if(productsData.current.length != 0) productsData.current=[];
-      if(!loading) setloading(true);
-        const response = await searchProductHandler({productName:specificCategory});
+    };
+
+    const fetchData = async () => {
+      if (productsData.current.length !== 0) productsData.current = [];
+      if (!loading) setloading(true);
+        const response = await searchProductHandler({ productName: specificCategory });
         switch (response.status) {
             case 200:
-                if(response.data.data.length > 0) productsData.current = response.data.data;
+                if (response.data.data.length > 0) productsData.current = response.data.data;
                 dataChecked.current = true;
                 setloading(false);
                 break;
             default:
                 break;
         }
-    }
-    function toggleClear(){
-      setClear(!clear);
-    }
-    useLayoutEffect(() => {
-      fetchData();
+    };
+
+    const toggleClear = () => {
+      setClear((prev) => !prev);
+    };
+
+    useEffect(() => {
+      void fetchData();
     }, [clear]);
+
     const formatedName = specificCategory.split('-').join(' ');
   return (
     <>
