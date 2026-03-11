@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Quickview from './ProductUi/Quickview';
 import Stars from './ProductUi/Stars';
 import NoProduct from './Search/NoProduct';
@@ -61,14 +61,15 @@ const defaultProduct: Product = {
       imgalt: ""
   }
 };
-const ProductCard = ({ product }:{ product:Product }) => {
+const ProductCard = ({ product }: { product: Product }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [productData, setproductData] = useState(defaultProduct);
+  const [productData, setproductData] = useState<Product>(defaultProduct);
   const [open, setOpen] = useState(false);
-  function categoryLink(maincategory:string,category:string){
+
+  const categoryLink = (maincategory: string, category: string) => {
     const splitCat = category.split(' ').join('-');
-    return `/sub-category/${maincategory}/${splitCat}`
-  }
+    return `/sub-category/${maincategory}/${splitCat}`;
+  };
   return (
     <div
       className='relative flex flex-col border-[1px] rounded-xl lg:max-h-[400px] sm:max-w-[220px] p-1 overflow-hidden transition-shadow duration-300 hover:shadow-lg'
@@ -91,21 +92,32 @@ const ProductCard = ({ product }:{ product:Product }) => {
           {product.discount}%
         </div>
       )}
-      <div className={`relative transition-transform mb-1 duration-300 ${isHovered && 'scale-105'}`}>
+      <div
+        className={`relative transition-transform mb-1 duration-300 ${
+          isHovered ? 'scale-105' : ''
+        }`}
+      >
         <img className='min-w-[200px] min-h-[210px]' src={product.images.imglink} alt={product.title} />
         {isHovered && (
           <button
             className='absolute bottom-2 left-1/2 rounded-xl transform -translate-x-1/2 w-[100px] h-[30px] flex items-center justify-center bg-black bg-opacity-50 text-white text-sm uppercase transition-opacity duration-300'
-            onClick={() => {setOpen(true);setproductData(product)}}>
+            onClick={() => {
+              setOpen(true);
+              setproductData(product);
+            }}>
             Quickview
           </button>
         )}
       </div>
       <div className='pl-4 pr-4 flex flex-col gap-2'>
-        <Link href={categoryLink(product.maincategory,product.category)}><p className='text-[14px] text-salmon'>{product.category}</p></Link>
-        <Link href={`/product/${product.productid}`}><p className='tracking-[1px] text-silver hover:text-davysilver'>{product.title}</p></Link>
+        <Link href={categoryLink(product.maincategory, product.category)}>
+          <p className='text-[14px] text-salmon'>{product.category}</p>
+        </Link>
+        <Link href={`/product/${product.productid}`}>
+          <p className='tracking-[1px] text-silver hover:text-davysilver'>{product.title}</p>
+        </Link>
         <div className='flex items-center gap-2'>
-          <Stars stars={product.stars}/>
+          <Stars stars={product.stars} />
           {product.reviewCount > 0 && <p className=' text-silver'>{product.reviewCount}</p>}
         </div>
         <div className='flex mb-5 items-center gap-4'>
@@ -121,29 +133,37 @@ const Products = () => {
   const dataChecked = useRef(false);
   const products = useRef<Product[]>([]);
   const [loading, setloading] = useState(true);
-  async function sync(){
+
+  const sync = async () => {
     const res = await homeProductsDataHandler();
-        switch (res.status) {
-        case 200:
-            products.current = res.data.data;
-            dataChecked.current = true;
-            setloading(false);
-            break;
-        default:
-          dataChecked.current = true;
-          setloading(false);
-          break;
+    switch (res.status) {
+      case 200:
+        products.current = res.data.data;
+        dataChecked.current = true;
+        setloading(false);
+        break;
+      default:
+        dataChecked.current = true;
+        setloading(false);
+        break;
     }
-  }
-  useLayoutEffect(() => {
-    sync();
-  }, [])
+  };
+
+  useEffect(() => {
+    void sync();
+  }, []);
   return (
     <div className='sm:ml-4 ml-auto mr-auto pb-8 max-w-[980px] flex flex-col flex-1'>
       <p className='border-b-[1px] leading-[40px] tracking-wide font-semibold text-lg'>Products</p>
       <div className='flex flex-wrap mt-8 gap-5 justify-center xl:w-[980px] lg:w-[720px] max-w-[980px] flex-1 relative'>
-      {loading && <div className='w-full h-[300px]'>{loading && <div className='absolute left-0 right-0 top-0 z-50'><Loading/></div>}</div> }
-        {(dataChecked.current && products.current.length === 0) && <NoProduct/>}
+        {loading && (
+          <div className='w-full h-[300px]'>
+            <div className='absolute left-0 right-0 top-0 z-50'>
+              <Loading />
+            </div>
+          </div>
+        )}
+        {(dataChecked.current && products.current.length === 0) && <NoProduct />}
         {dataChecked.current && products.current.map((each, index) => (
           <ProductCard key={index} product={each} />
         ))}
