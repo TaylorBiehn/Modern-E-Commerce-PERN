@@ -56,5 +56,3 @@ Go to the original repository and open a pull request. Provide a clear descripti
 ### Thank You!
 - **Thank you for taking the time to contribute to this project. Your efforts are greatly appreciated!**
 
-## Contact
-- **For any questions or further discussion, feel free to reach out via email at harmanpreetsingh@programmer.net.**

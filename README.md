@@ -47,7 +47,7 @@ Welcome to the repository for our full stack eCommerce website built using the P
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/HarmanPreet-Singh-XYT/E-Commerce.git
+   git clone https://github.com/TaylorBiehn/Modern-E-Commerce-PERN.git
 2. Navigate to the project directory:
    ```sh
    cd ecommerce-website
@@ -104,10 +104,10 @@ Welcome to the repository for our full stack eCommerce website built using the P
 **There are two Following images available on Docker hub for Client and Server**
 1. Client Image:
    ```sh
-   docker pull harmanpreet27/ecommerce-client
+   docker pull taylorbiehn/ecommerce-client
 2. Server Image:
    ```sh
-   docker pull harmanpreet27/ecommerce-backend
+   docker pull taylorbiehn/ecommerce-backend
 ## Contributing
 
 **We welcome contributions! Please fork the repository and submit a pull request.**
@@ -116,9 +116,6 @@ Welcome to the repository for our full stack eCommerce website built using the P
 
 **This project is licensed under the MIT License. See the LICENSE file for more details.**
 
-## Contact
-
-**For any questions or feedback, please contact us at harmanpreetsingh@programmer.net**
 
 ## Environment Variables (Required before Starting)
 
