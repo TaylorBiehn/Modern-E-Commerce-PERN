@@ -498,8 +498,8 @@ const footerSections = [
     {
         sectionName: 'Contact',
         items: [
-            {title:'419 State 414 Rte Beaver Dams, New York(NY), 14812, USA',link:"#"},
-            {title:'(607) 936-8058',link:"#"},
+            {title:'MN, USA',link:"#"},
+            {title:'(555) 555-5555',link:"#"},
             {title:'Example@Gmail.Com',link:"#"}
         ]
     }
