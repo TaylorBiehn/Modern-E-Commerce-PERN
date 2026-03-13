@@ -1,9 +1,6 @@
-import React from 'react'
-import App from './App'
-const page = () => {
-  return (
-      <App/>
-  )
-}
+import React from "react";
+import App from "./App";
 
-export default page
+const RootPage: React.FC = () => <App />;
+
+export default RootPage;
