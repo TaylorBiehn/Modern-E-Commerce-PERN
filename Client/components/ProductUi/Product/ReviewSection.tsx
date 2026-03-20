@@ -235,8 +235,8 @@ const ReviewSection = ({data,reviewCount,setloading,setdialogType,setselectedRev
                     <h4 className="font-manrope font-semibold text-2xl leading-10 text-black mb-6">Recent
                         Reviews</h4>
                     <div className='flex flex-col gap-5'>
-                        {data.map((each,index)=>
-                            <div className='border-[1px] px-4 rounded-xl py-4' key={index}>
+                        {data.map((each)=>
+                            <div className='border-[1px] px-4 rounded-xl py-4' key={each.reviewid}>
                             <div className="flex sm:items-center flex-col sm:flex-row justify-between  mb-4">
                                 <div className="flex gap-3 flex-col">
                                     <Stars stars={each.rating} size={40}/>

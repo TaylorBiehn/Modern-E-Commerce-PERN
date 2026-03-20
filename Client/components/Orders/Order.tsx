@@ -30,9 +30,8 @@ const Order = () => {
     const dataVar = useRef<orderDataflow[]>([])
     const data = dataVar.current;
     const [loading, setLoading] = useState(true);
-    const toggleMenu = (index:number)=>{
-        if(typeof(menu)==='number') setmenu(null);
-        else setmenu(index);
+    const toggleMenu = (orderid: number) => {
+        setmenu(menu === orderid ? null : orderid);
     };
     async function orderData(){
         const temp_data = await ordersHandler();
@@ -78,7 +77,7 @@ const Order = () => {
             {(!loggedIn.current && !loading) && <NotLoggedin/>}
             {loading && <div className='h-[300px]'></div>}
             {loading && <div className='absolute left-0 right-0 z-50'><Loading/></div>}
-            {data.map((order,index) => <section key={index} className='min-w-[90%] max-w-[90%] md:max-w-[720px] lg:min-w-[900px] mx-auto rounded-xl gap-5 border-[1px]'>
+            {data.map((order) => <section key={order.orderid} className='min-w-[90%] max-w-[90%] md:max-w-[720px] lg:min-w-[900px] mx-auto rounded-xl gap-5 border-[1px]'>
                 <div className='px-5 py-5'>
                     <div className='flex gap-8 justify-between items-center  border-b-[1px] pb-4'>
                         <div className='flex gap-10 items-center'>
@@ -95,10 +94,10 @@ const Order = () => {
                                 <p className='font-medium text-sm'>${order.totalamount}</p>
                             </div>
                         </div>
-                        <div onClick={()=>toggleMenu(index)} className='flex flex-col gap-1 md:hidden'>
+                        <div onClick={()=>toggleMenu(order.orderid)} className='flex flex-col gap-1 md:hidden'>
                                 <EllipsisVerticalIcon className='h-[25px] text-silver hover:text-black cursor-pointer'/>
                                 <div className='relative'>
-                                    {menu===index && <DropdownMenu options={Dropdown} orderid={order.orderid}/>}
+                                    {menu===order.orderid && <DropdownMenu options={Dropdown} orderid={order.orderid}/>}
                                 </div>
                         </div>
                         <div className='gap-5 hidden md:flex'>
