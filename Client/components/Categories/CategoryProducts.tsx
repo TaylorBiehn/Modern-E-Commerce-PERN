@@ -60,7 +60,6 @@ const defaultProduct: Product = {
 };
 const ProductCard = ({ product }:{ product:Product }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [productData, setproductData] = useState(defaultProduct);
   const [open, setOpen] = useState(false);
   return (
     <div
@@ -68,7 +67,7 @@ const ProductCard = ({ product }:{ product:Product }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Quickview open={open} setOpen={setOpen} product={productData} />
+      <Quickview open={open} setOpen={setOpen} product={open ? product : defaultProduct} />
       {product.issale && (
         <div className="absolute top-2 -left-8 bg-black text-white px-10 py-1 z-10 rotate-[320deg] text-[12px] uppercase rounded">
           SALE
@@ -89,7 +88,7 @@ const ProductCard = ({ product }:{ product:Product }) => {
         {isHovered && (
           <button
             className='absolute bottom-2 left-1/2 rounded-xl transform -translate-x-1/2 w-[100px] h-[30px] flex items-center justify-center bg-black bg-opacity-50 text-white text-sm uppercase transition-opacity duration-300'
-            onClick={() => {setOpen(true);setproductData(product)}}>
+            onClick={() => setOpen(true)}>
             Quickview
           </button>
         )}
@@ -115,10 +114,10 @@ const CategoryProducts = ({ dataChecked,products,loading }:{ dataChecked:boolean
     <div className='sm:ml-4 ml-auto mr-auto pb-8 max-w-[980px] flex flex-col flex-1'>
       <p className='border-b-[1px] leading-[40px] tracking-wide font-semibold text-lg'>Products</p>
       <div className='flex flex-wrap mt-8 gap-5 justify-center xl:w-[980px] lg:w-[720px] max-w-[980px] flex-1 relative'>
-      {loading && <div className='w-full h-[300px]'>{loading && <div className='absolute left-0 right-0 top-0 z-50'><Loading/></div>}</div> }
+      {loading && <div className='w-full h-[300px]'><div className='absolute left-0 right-0 top-0 z-50'><Loading/></div></div>}
         {(dataChecked && products.length === 0) && <NoProduct/>}
-        {dataChecked && products.map((each, index) => (
-          <ProductCard key={index} product={each} />
+        {dataChecked && products.map((each) => (
+          <ProductCard key={each.productid} product={each} />
         ))}
       </div>
     </div>

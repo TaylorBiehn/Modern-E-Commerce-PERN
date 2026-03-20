@@ -63,7 +63,6 @@ const defaultProduct: Product = {
 };
 const ProductCard = ({ product }: { product: Product }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [productData, setproductData] = useState<Product>(defaultProduct);
   const [open, setOpen] = useState(false);
 
   const categoryLink = (maincategory: string, category: string) => {
@@ -76,7 +75,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Quickview open={open} setOpen={setOpen} product={productData} />
+      <Quickview open={open} setOpen={setOpen} product={open ? product : defaultProduct} />
       {product.issale && (
         <div className="absolute top-2 -left-8 bg-black text-white px-10 py-1 z-10 rotate-[320deg] text-[12px] uppercase rounded">
           SALE
@@ -101,10 +100,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         {isHovered && (
           <button
             className='absolute bottom-2 left-1/2 rounded-xl transform -translate-x-1/2 w-[100px] h-[30px] flex items-center justify-center bg-black bg-opacity-50 text-white text-sm uppercase transition-opacity duration-300'
-            onClick={() => {
-              setOpen(true);
-              setproductData(product);
-            }}>
+            onClick={() => setOpen(true)}>
             Quickview
           </button>
         )}
@@ -164,8 +160,8 @@ const Products = () => {
           </div>
         )}
         {(dataChecked.current && products.current.length === 0) && <NoProduct />}
-        {dataChecked.current && products.current.map((each, index) => (
-          <ProductCard key={index} product={each} />
+        {dataChecked.current && products.current.map((each) => (
+          <ProductCard key={each.productid} product={each} />
         ))}
       </div>
     </div>

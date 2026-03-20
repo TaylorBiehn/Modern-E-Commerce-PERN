@@ -28,12 +28,12 @@ app.get('/', (req: Request, res: Response) => {
   res.status(200).json({ message: 'Success' });
 });
 app.use('/api', routes);
-// Function to start the server
-const startServer = async () => {// Ensure the database connection is established
+// Function to start the server - connect DB before accepting requests
+const startServer = async () => {
+  await connectDB();
   app.listen(port, () => {
     console.log(`[server]: Server is running at Port ${port}`);
   });
-  await connectDB();
 };
 
 startServer();
