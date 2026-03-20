@@ -165,9 +165,9 @@ export default function Quickview({ product, open, setOpen }: ProductCardProps) 
                               onChange={setSelectedColor}
                               className="mt-4 flex items-center space-x-3"
                             >
-                              {product.colors.map((color,index) => (
+                              {product.colors.map((color) => (
                                 <Radio
-                                  key={index}
+                                  key={color.colorid}
                                   value={color}
                                   aria-label={color.name}
                                   className={({ focus, checked }) =>
@@ -205,9 +205,9 @@ export default function Quickview({ product, open, setOpen }: ProductCardProps) 
                               onChange={setSelectedSize}
                               className="mt-4 grid grid-cols-4 gap-4"
                             >
-                              {product.sizes.map((size,index) => (
+                              {product.sizes.map((size) => (
                                 <Radio
-                                  key={index}
+                                  key={size.sizeid}
                                   value={size}
                                   disabled={!size.instock}
                                   className={({ focus }) =>

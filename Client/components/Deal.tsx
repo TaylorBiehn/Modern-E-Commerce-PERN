@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DealTime from './DealTime';
 import ProgressBar from './ProgressBar';
 import Stars from './ProductUi/Stars';
@@ -34,16 +34,16 @@ const Deal = () => {
             break;
         }
     }
-    useLayoutEffect(() => {
-      sync();
+    useEffect(() => {
+      void sync();
     }, [])
   return (
     
     <div className=' mt-10 sm:ml-4 ml-auto mr-auto max-w-[350px] md:max-w-[800px] xl:max-w-[1000px] flex flex-col justify-center'>
         <p className='border-b-[1px] leading-[50px] tracking-[1.5px] font-semibold text-[18px]'> Deal of The Day</p>
         <div className='p-[30px] border-[1px] mt-8 rounded-xl overflow-auto snap-x snap-proximity flex gap-20 relative'>
-        {loading && <div className='w-screen h-[350px]'>{loading && <div className='absolute left-0 right-0 top-16 z-50'><Loading/></div>}</div> }
-            {data.current.map((each,index)=><div key={index} className='flex flex-col rounded-xl min-w-full gap-5 h-auto items-center lg:pl-10 snap-center lg:flex-row'>
+        {loading && <div className='w-screen h-[350px]'><div className='absolute left-0 right-0 top-16 z-50'><Loading/></div></div>}
+            {data.current.map((each)=><div key={each.productid} className='flex flex-col rounded-xl min-w-full gap-5 h-auto items-center lg:pl-10 snap-center lg:flex-row'>
                 <a href={`/product/${each.productid}`}><img className='max-w-[450px] min-w-[200px] rounded-md' alt={each.imgalt} src={each.imglink}/></a>
                 <div className='flex flex-col gap-4 w-full'>
                     <div className='flex items-center gap-2'>
